@@ -6,6 +6,8 @@ The plasmoid displays virtual desktops as text labels with indicators in various
 
 And actually, the whole reason for creating this plasmoid was about the aesthetics in the first place, as I consider the Plasma's default Pager applet, with its fixed-size rectangles and window shapes, to be quite ugly, to put it straight.
 
+This fork adds an optional border for relevant styles, with options for thickness and color.
+
 ## Features
 
 * Switching, adding, removing, renaming, moving desktops
