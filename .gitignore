@@ -38,7 +38,6 @@ debug_toolchain.cmake
 
 # generated files
 CMakeLists.txt.user*
-fooyin_version.h
 
 # Vim temporary files
 .*.swp
