@@ -42,6 +42,9 @@ Item {
 
     // Desktop indicators
     property alias cfg_DesktopIndicatorsStyle: desktopIndicatorsStyleComboBox.currentIndex
+    property alias cfg_DesktopIndicatorsBorder: desktopIndicatorsBorderCheckBox.checked
+    property alias cfg_DesktopIndicatorsStyleBorderThickness: desktopIndicatorsBorderThickness.value
+    property string cfg_DesktopIndicatorsStyleBorderColor
     property alias cfg_DesktopIndicatorsStyleBlockRadius: desktopIndicatorsStyleBlockRadiusSpinBox.value
     property alias cfg_DesktopIndicatorsStyleLineThickness: desktopIndicatorsStyleLineThicknessSpinBox.value
     property alias cfg_DesktopIndicatorsInvertPosition: desktopIndicatorsInvertPositionCheckBox.checked
@@ -481,6 +484,46 @@ Item {
                 minimumValue: 1
                 maximumValue: 10
                 suffix: " px thickness"
+            }
+        }
+
+        RowLayout {
+            spacing: 0
+
+            CheckBox {
+                id: desktopIndicatorsBorderCheckBox
+                checked: cfg_DesktopIndicatorsBorder
+                enabled: cfg_DesktopIndicatorsStyle > 1 && cfg_DesktopIndicatorsStyle < 5
+                onCheckedChanged: {
+                    cfg_DesktopIndicatorsStyleBorderThickness = checked ?
+                        desktopIndicatorsBorderThickness.value : 0;
+                    cfg_DesktopIndicatorsBorder = desktopIndicatorsBorderCheckBox.checked;
+                }
+                text: "Indicator border"
+            }
+
+            SpinBox {
+                id: desktopIndicatorsBorderThickness
+                enabled: desktopIndicatorsBorderCheckBox.checked
+                value: cfg_DesktopIndicatorsStyleBorderThickness
+                minimumValue: 0
+                maximumValue: 100
+                suffix: " px"
+            }
+
+            ColorButton {
+                id: desktopIndicatorsCustomColorForBorderButton
+                enabled: desktopIndicatorsBorderCheckBox.checked
+                color: cfg_DesktopIndicatorsStyleBorderColor || theme.textColor
+
+                colorAcceptedCallback: function(color) {
+                    cfg_DesktopIndicatorsStyleBorderColor = color;
+                }
+            }
+
+            HintIcon {
+                visible: !desktopIndicatorsBorderCheckBox.enabled
+                tooltipText: "Not available for the selected indicator style"
             }
         }
 

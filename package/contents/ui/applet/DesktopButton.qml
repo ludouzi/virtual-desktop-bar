@@ -214,6 +214,14 @@ Component {
                 }
                 return 0;
             }
+
+            border.width: {
+                return config.DesktopIndicatorsStyleBorderThickness;
+            }
+
+            border.color: {
+                return config.DesktopIndicatorsStyleBorderColor;
+            }
         }
 
         /* Label */
