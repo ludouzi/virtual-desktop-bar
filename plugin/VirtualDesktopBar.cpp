@@ -11,7 +11,7 @@
 #include <KGlobalAccel>
 
 VirtualDesktopBar::VirtualDesktopBar(QObject* parent) : QObject(parent),
-        netRootInfo(QX11Info::connection(), 0),
+    netRootInfo(QX11Info::connection(), {}),
         dbusInterface("org.kde.KWin", "/VirtualDesktopManager"),
         dbusInterfaceName("org.kde.KWin.VirtualDesktopManager"),
         sendDesktopInfoListLock(false),
@@ -37,7 +37,7 @@ void VirtualDesktopBar::addDesktop(unsigned /*position*/) {
     netRootInfo.setNumberOfDesktops(KWindowSystem::numberOfDesktops() + 1);
 
     if (!cfg_AddingDesktopsExecuteCommand.isEmpty()) {
-        QTimer::singleShot(100, [=] {
+        QTimer::singleShot(100, this, [=] {
             QString command = "(" + cfg_AddingDesktopsExecuteCommand + ") &";
             system(command.toStdString().c_str());
         });
@@ -237,7 +237,7 @@ void VirtualDesktopBar::setUpGlobalKeyboardShortcuts() {
 void VirtualDesktopBar::processChanges(std::function<void()> callback, bool& lock) {
     if (!lock) {
         lock = true;
-        QTimer::singleShot(1, [this, callback, &lock] {
+        QTimer::singleShot(1, this, [callback, &lock] {
             lock = false;
             callback();
         });
@@ -432,7 +432,7 @@ void VirtualDesktopBar::tryRemoveEmptyDesktops() {
 void VirtualDesktopBar::tryRenameEmptyDesktops() {
     if (!cfg_EmptyDesktopsRenameAs.isEmpty()) {
         auto emptyDesktopNumberList = getEmptyDesktopNumberList();
-        for (int desktopNumber : emptyDesktopNumberList) {
+        for (int desktopNumber : qAsConst(emptyDesktopNumberList)) {
             renameDesktop(desktopNumber, cfg_EmptyDesktopsRenameAs);
         }
     }
