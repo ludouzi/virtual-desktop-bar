@@ -42,7 +42,7 @@ Item {
 
     // Desktop indicators
     property alias cfg_DesktopIndicatorsStyle: desktopIndicatorsStyleComboBox.currentIndex
-    property alias cfg_DesktopIndicatorsBorder: desktopIndicatorsBorderCheckBox.checked
+    property alias cfg_DesktopIndicatorsStyleBorder: desktopIndicatorsStyleBorderCheckBox.checked
     property alias cfg_DesktopIndicatorsStyleBorderThickness: desktopIndicatorsBorderThickness.value
     property string cfg_DesktopIndicatorsStyleBorderColor
     property alias cfg_DesktopIndicatorsStyleBlockRadius: desktopIndicatorsStyleBlockRadiusSpinBox.value
@@ -455,6 +455,7 @@ Item {
                     }
                     if (cfg_DesktopIndicatorsStyle < 2) {
                         cfg_DesktopIndicatorsStyleLineThickness = desktopIndicatorsStyleLineThicknessSpinBox.value;
+                        cfg_DesktopIndicatorsStyleBorder = false;
                     } else {
                         cfg_DesktopIndicatorsStyleLineThickness = 3;
                     }
@@ -491,20 +492,20 @@ Item {
             spacing: 0
 
             CheckBox {
-                id: desktopIndicatorsBorderCheckBox
-                checked: cfg_DesktopIndicatorsBorder
+                id: desktopIndicatorsStyleBorderCheckBox
+                checked: cfg_DesktopIndicatorsStyleBorder
                 enabled: cfg_DesktopIndicatorsStyle > 1 && cfg_DesktopIndicatorsStyle < 5
                 onCheckedChanged: {
                     cfg_DesktopIndicatorsStyleBorderThickness = checked ?
                         desktopIndicatorsBorderThickness.value : 0;
-                    cfg_DesktopIndicatorsBorder = desktopIndicatorsBorderCheckBox.checked;
+                    cfg_DesktopIndicatorsStyleBorder = desktopIndicatorsStyleBorderCheckBox.checked;
                 }
                 text: "Indicator border"
             }
 
             SpinBox {
                 id: desktopIndicatorsBorderThickness
-                enabled: desktopIndicatorsBorderCheckBox.checked
+                enabled: desktopIndicatorsStyleBorderCheckBox.checked
                 value: cfg_DesktopIndicatorsStyleBorderThickness
                 minimumValue: 0
                 maximumValue: 100
@@ -513,7 +514,7 @@ Item {
 
             ColorButton {
                 id: desktopIndicatorsCustomColorForBorderButton
-                enabled: desktopIndicatorsBorderCheckBox.checked
+                enabled: desktopIndicatorsStyleBorderCheckBox.checked
                 color: cfg_DesktopIndicatorsStyleBorderColor || theme.textColor
 
                 colorAcceptedCallback: function(color) {
@@ -522,7 +523,7 @@ Item {
             }
 
             HintIcon {
-                visible: !desktopIndicatorsBorderCheckBox.enabled
+                visible: !desktopIndicatorsStyleBorderCheckBox.enabled
                 tooltipText: "Not available for the selected indicator style"
             }
         }

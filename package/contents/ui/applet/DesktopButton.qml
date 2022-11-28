@@ -216,7 +216,10 @@ Component {
             }
 
             border.width: {
-                return config.DesktopIndicatorsStyleBorderThickness;
+                if (config.DesktopIndicatorsStyleBorder) {
+                    return config.DesktopIndicatorsStyleBorderThickness;
+                }
+                return 0;
             }
 
             border.color: {
